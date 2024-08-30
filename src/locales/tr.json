@@ -1,4 +1,7 @@
 {
   "enter_verification_code": "Doğrulama Kodunu Girin",
-  "verify": "Doğrula"
+  "verify": "Doğrula",
+  "did_not_receive_message": "OTP kodunu almadınız mı?",
+  "resend_otp": "Tekrar gönder",
+  "otp_verified": "OTP doğrulandı:"
 }

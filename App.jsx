@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
-  TextInput,
   Button,
   PermissionsAndroid,
   Platform,
@@ -82,8 +81,8 @@ const OtpAutoRead = () => {
       {/* Dil Değiştirme Butonu */}
       <TouchableOpacity
         onPress={changeLanguage}
-        style={{position: 'absolute', top: 10, right: 10}}>
-        <Text style={{color: 'white'}}>
+        style={{position: 'absolute', top: 20, right: 20}}>
+        <Text style={{fontSize: 20, color: 'white'}}>
           {i18n.language === 'en' ? 'TR' : 'EN'}
         </Text>
       </TouchableOpacity>
@@ -103,13 +102,25 @@ const OtpAutoRead = () => {
         {Array(6)
           .fill(0)
           .map((_, index) => (
-            <TextInputComp index={index} />
+            <TextInputComp
+              key={index}
+              value={(otp && otp[index]) || ''}
+              onChangeText={handleOtpChange}
+              index={index}
+            />
           ))}
+      </View>
+
+      <View className="flex flex-row justify-between mb-10">
+        <Text className="text-white">{t('did_not_receive_message')}</Text>
+        <TouchableOpacity>
+          <Text className="text-blue-600">{t('resend_otp')}</Text>
+        </TouchableOpacity>
       </View>
 
       <Button
         title={t('verify')}
-        onPress={() => otp && console.log(t('otp_verified'), otp)}
+        onPress={() => otp && console.warn(`${t('otp_verified')} ${otp}`)}
       />
     </View>
   );

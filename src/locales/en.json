@@ -1,4 +1,7 @@
 {
   "enter_verification_code": "Enter Verification Code",
-  "verify": "Verify"
+  "verify": "Verify",
+  "did_not_receive_message": "Didn't take a message?",
+  "resend_otp": "Resend OTP",
+  "otp_verified": "OTP verified:"
 }

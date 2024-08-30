@@ -19,6 +19,7 @@
     "react-native": "0.75.2",
     "react-native-localize": "^3.2.1",
     "react-native-otp-verify": "^1.1.8",
+    "react-native-switch-selector": "^2.3.0",
     "react-native-vector-icons": "^10.1.0"
   },
   "devDependencies": {
