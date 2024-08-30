@@ -66,7 +66,7 @@ const OtpAutoRead = () => {
       const otp2 = otpMatch[1];
       setOtp(otp2);
     } else {
-      console.warn(t('otp_not_found'));
+      console.log(t('otp_not_found'));
     }
   };
 
