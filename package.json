@@ -10,9 +10,14 @@
     "test": "jest"
   },
   "dependencies": {
+    "i18next": "^23.14.0",
+    "intl": "^1.2.5",
+    "intl-pluralrules": "^2.0.1",
     "nativewind": "^2.0.11",
     "react": "18.3.1",
+    "react-i18next": "^15.0.1",
     "react-native": "0.75.2",
+    "react-native-localize": "^3.2.1",
     "react-native-otp-verify": "^1.1.8",
     "react-native-vector-icons": "^10.1.0"
   },

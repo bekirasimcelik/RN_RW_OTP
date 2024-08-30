@@ -6,14 +6,22 @@ import {
   Button,
   PermissionsAndroid,
   Platform,
-  StyleSheet,
   Image,
+  TouchableOpacity,
 } from 'react-native';
 import RNOtpVerify from 'react-native-otp-verify';
-// import MessageIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useTranslation} from 'react-i18next';
+import './src/lang/i18n';
+import TextInputComp from './src/components/TextInputComp';
 
 const OtpAutoRead = () => {
+  const {t, i18n} = useTranslation();
   const [otp, setOtp] = useState('');
+
+  const changeLanguage = () => {
+    const newLanguage = i18n.language === 'en' ? 'tr' : 'en';
+    i18n.changeLanguage(newLanguage);
+  };
 
   useEffect(() => {
     if (Platform.OS === 'android') {
@@ -35,18 +43,17 @@ const OtpAutoRead = () => {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.RECEIVE_SMS,
         {
-          title: 'SMS İzni',
-          message:
-            'Bu uygulama SMS mesajlarını okumak için izne ihtiyaç duyuyor.',
-          buttonNeutral: 'Daha Sonra',
-          buttonNegative: 'İptal',
-          buttonPositive: 'Tamam',
+          title: t('sms_permission_title'),
+          message: t('sms_permission_message'),
+          buttonNeutral: t('button_neutral'),
+          buttonNegative: t('button_negative'),
+          buttonPositive: t('button_positive'),
         },
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log('SMS okuma izni verildi.');
+        console.log(t('sms_permission_granted'));
       } else {
-        console.log('SMS okuma izni reddedildi.');
+        console.log(t('sms_permission_denied'));
       }
     } catch (err) {
       console.warn(err);
@@ -54,13 +61,13 @@ const OtpAutoRead = () => {
   };
 
   const otpHandler = message => {
-    console.log('Gelen mesaj:', message);
+    console.log(t('received_message'), message);
     const otpMatch = /(\d{6})/.exec(message);
     if (otpMatch) {
       const otp2 = otpMatch[1];
       setOtp(otp2);
     } else {
-      console.warn('Mesajdan OTP çıkarılamadı veya mesaj formatı uygun değil.');
+      console.warn(t('otp_not_found'));
     }
   };
 
@@ -72,12 +79,20 @@ const OtpAutoRead = () => {
 
   return (
     <View className="flex-1 p-16 bg-[#EA9745]">
+      {/* Dil Değiştirme Butonu */}
+      <TouchableOpacity
+        onPress={changeLanguage}
+        style={{position: 'absolute', top: 10, right: 10}}>
+        <Text style={{color: 'white'}}>
+          {i18n.language === 'en' ? 'TR' : 'EN'}
+        </Text>
+      </TouchableOpacity>
+
       <Text className="text-[20px] mt-10 text-white self-center">
-        Enter Verification Code
+        {t('enter_verification_code')}
       </Text>
 
       <View className="flex justify-center items-center mt-10">
-        {/* <MessageIcon name="message-bulleted" size={50} /> */}
         <Image
           source={require('./src/assets/otpIcon.png')}
           style={{width: 125, height: 125}}
@@ -88,20 +103,13 @@ const OtpAutoRead = () => {
         {Array(6)
           .fill(0)
           .map((_, index) => (
-            <TextInput
-              key={index}
-              className="border-white bprder-2 rounded-md w-10 h-10 text-center text-[18px] bg-white"
-              maxLength={1}
-              keyboardType="numeric"
-              value={(otp && otp[index]) || ''}
-              onChangeText={text => handleOtpChange(text, index)}
-            />
+            <TextInputComp index={index} />
           ))}
       </View>
 
       <Button
-        title="Doğrula"
-        onPress={() => otp && console.log('OTP Doğrulandı:', otp)}
+        title={t('verify')}
+        onPress={() => otp && console.log(t('otp_verified'), otp)}
       />
     </View>
   );
